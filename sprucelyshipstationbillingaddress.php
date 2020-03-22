@@ -14,6 +14,14 @@ if (defined('ABSPATH')) {
     die;
 }
 
+$billingmetakey = 'SSBillingInfo';
+
+    add_filter( 'woocommerce_shipstation_export_custom_field_2', 'shipstation_custom_field_2' );
+
+    function shipstation_custom_field_2() {
+        return $billingmetakey; // Replace this with the key of your custom field
+    }
+
 add_action('woocommerce_checkout_create_order', 'addbillingaddress');
 
 function addbillingaddress($order, $sent_to_admin, $plain_text, $email)
@@ -40,13 +48,7 @@ function addbillingaddress($order, $sent_to_admin, $plain_text, $email)
         $billingaddress = $billingaddress1 . '\n' . $billingaddress2 . '\n' . $billingcity . ', ' . $billingstate . ' ' . $billingcountry;
         $billingname = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name(); */
     
-    $billingmetakey = 'SSBillingInfo';
-
-    add_filter( 'woocommerce_shipstation_export_custom_field_2', 'shipstation_custom_field_2' );
-
-    function shipstation_custom_field_2() {
-        return $billingmetakey; // Replace this with the key of your custom field
-    }
+    
 
     if($billingaddress != $shippingaddress){
     
