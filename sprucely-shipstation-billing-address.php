@@ -1,4 +1,3 @@
-@@ -0,0 +1,73 @@
 <?php
 
 /**
@@ -17,16 +16,16 @@ if ( defined( 'ABSPATH' ) ) {
 
 $billing_meta_key = 'SSBillingInfo';
 
-	add_filter( 'woocommerce_shipstation_export_custom_field_2', 'shipstation_custom_field_2' );
-	/**
-	 * Update custom field 2 that is sent to SS.
-	 *
-	 * @see https://gist.github.com/woogists/53d13508835276e66578f9c6f2398d03#file-wc-export-custom-field-data-php
-	 * @return string Meta Key
-	 */
-	function shipstation_custom_field_2() {
-		return $billing_meta_key; // Replace this with the key of your custom field.
-	}
+add_filter( 'woocommerce_shipstation_export_custom_field_2', 'shipstation_custom_field_2' );
+/**
+ * Update custom field 2 that is sent to SS.
+ *
+ * @see https://gist.github.com/woogists/53d13508835276e66578f9c6f2398d03#file-wc-export-custom-field-data-php
+ * @return string Meta Key
+ */
+function shipstation_custom_field_2() {
+	return $billing_meta_key; // Replace this with the key of your custom field.
+}
 
 add_action( 'woocommerce_checkout_create_order', 'sprucely_add_billing_address' );
 
