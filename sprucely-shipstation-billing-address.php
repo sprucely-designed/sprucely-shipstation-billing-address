@@ -1,20 +1,18 @@
 <?php
-
 /**
  * Plugin Name:       ShipStation Billing Address
  * Plugin URI:        https://www.sprucely.net/support?utm_source=sprucelyshipstationbillingaddr&utm_campaign=author_uri&utm_medium=plugin_uri
  * Description:       This adds the customer billing address to Custom Field #2 in ShipStation if different than the shipping address
- * Version:           1.0.0
  * Author:            Terry @ Sprucely Designed
  * Author URI:        https://www.sprucely.net/support
+ * Version:           1.0.0
  */
 
-// If this file is called directly, abort.
-if ( defined( 'ABSPATH' ) ) {
+if( !function_exists( 'shipstation_custom_field_2' )){
 	die;
 }
 
-$billing_meta_key = 'SSBillingInfo';
+$billing_meta_key = '_SSBillingInfo';
 
 add_filter( 'woocommerce_shipstation_export_custom_field_2', 'shipstation_custom_field_2' );
 /**
@@ -27,32 +25,12 @@ function shipstation_custom_field_2() {
 	return $billing_meta_key; // Replace this with the key of your custom field.
 }
 
-add_action( 'woocommerce_checkout_create_order', 'sprucely_add_billing_address' );
+add_action( 'woocommerce_checkout_create_order', 'sprucely_add_billing_address', 10, 2 );
 
-function sprucely_add_billing_address( $order, $sent_to_admin, $plain_text, $email ) {
+function sprucely_add_billing_address( $order, $data ) {
 	$billing_address  = $order->get_formatted_billing_address();
 	$shipping_address = $order->get_formatted_shipping_address();
 	$billing_name     = $order->get_formatted_billing_full_name();
-
-	/*
-	$billingaddress1 = $order->get_billing_address_1();
-	$billingaddress2 = $order->get_billing_address_2();
-	$billingcity = $order->get_billing_city();
-	$billingstate = $order->get_billing_state();
-	$billingcountry = $order->get_billing_country();
-
-	$shippingaddress1 = $order->get_shipping_address_1();
-	$shippingaddress2 = $order->get_shipping_address_2();
-	$shippingcity = $order->get_shipping_city();
-	$shippingstate = $order->get_shipping_state();
-	$shippingcountry = $order->get_shipping_country();
-
-	if($billingaddress1 == $shippingaddress1 and $billingaddress2 == $shippingaddress2 and
-	$billingcity == $shippingcity and $billingstate == $shippingstate and $billingcountry == $shippingcountry){
-
-		$billingaddress = $billingaddress1 . '\n' . $billingaddress2 . '\n' . $billingcity . ', ' . $billingstate . ' ' . $billingcountry;
-		$billingname = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
-	*/
 
 	if ( $billing_address != $shipping_address ) {
 
@@ -68,6 +46,6 @@ function sprucely_add_billing_address( $order, $sent_to_admin, $plain_text, $ema
 
 		$order->add_meta_data( $billing_meta_key, $billing_address );
 	} else {
-		$order->add_meta_data( $billing_meta_key, ' ' );
+		$order->add_meta_data( $billing_meta_key, '' );
 	}
 }
