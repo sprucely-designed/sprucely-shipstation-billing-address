@@ -1,5 +1,4 @@
 <?php
-
 /**
  * Plugin Name:       ShipStation Billing Address
  * Plugin URI:        https://www.sprucely.net/support?utm_source=sprucelyshipstationbillingaddr&utm_campaign=author_uri&utm_medium=plugin_uri
@@ -14,7 +13,7 @@ if ( defined( 'ABSPATH' ) ) {
 	die;
 }
 
-$billing_meta_key = 'SSBillingInfo';
+$billing_meta_key = '_ss_billing_info';
 
 add_filter( 'woocommerce_shipstation_export_custom_field_2', 'shipstation_custom_field_2' );
 /**
