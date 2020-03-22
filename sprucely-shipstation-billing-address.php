@@ -12,7 +12,7 @@ if( !function_exists( 'shipstation_custom_field_2' )){
 	die;
 }
 
-$billing_meta_key = '_SSBillingInfo';
+$billing_meta_key = '_ss_billing_info';
 
 add_filter( 'woocommerce_shipstation_export_custom_field_2', 'shipstation_custom_field_2' );
 /**
