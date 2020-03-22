@@ -14,12 +14,12 @@ if ( defined( 'ABSPATH' ) ) {
 	die;
 }
 
-add_action( 'woocommerce_checkout_create_order', 'addbillingaddress' );
+add_action( 'woocommerce_checkout_create_order', 'sprucely_add_billing_address' );
 
-function addbillingaddress( $order, $sent_to_admin, $plain_text, $email ) {
-	$billingaddress  = $order->get_formatted_billing_address();
-	$shippingaddress = $order->get_formatted_shipping_address();
-	$billingname     = $order->get_formatted_billing_full_name();
+function sprucely_add_billing_address( $order, $sent_to_admin, $plain_text, $email ) {
+	$billing_address  = $order->get_formatted_billing_address();
+	$shipping_address = $order->get_formatted_shipping_address();
+	$billing_name     = $order->get_formatted_billing_full_name();
 
 	/*
 	$billingaddress1 = $order->get_billing_address_1();
@@ -41,7 +41,7 @@ function addbillingaddress( $order, $sent_to_admin, $plain_text, $email ) {
 		$billingname = $order->get_billing_first_name() . ' ' . $order->get_billing_last_name();
 	*/
 
-	$billingmetakey = 'SSBillingInfo';
+	$billing_meta_key = 'SSBillingInfo';
 
 	add_filter( 'woocommerce_shipstation_export_custom_field_2', 'shipstation_custom_field_2' );
 	/**
@@ -51,23 +51,23 @@ function addbillingaddress( $order, $sent_to_admin, $plain_text, $email ) {
 	 * @return string Meta Key
 	 */
 	function shipstation_custom_field_2() {
-		return $billingmetakey; // Replace this with the key of your custom field
+		return $billing_meta_key; // Replace this with the key of your custom field.
 	}
 
-	if ( $billingaddress != $shippingaddress ) {
+	if ( $billing_address != $shipping_address ) {
 
-		$billingaddress = sanitize_text_field(
+		$billing_address = sanitize_text_field(
 			'<td align="right" style="width: .75in">
                                 <b>Purchased by:</b>
                             </td>
                             <td style="width: 2.5in; font-size: 14px">
-                                <div>' . $billingname . '</div>
-                                <div>' . $billingaddress . '</div>
+                                <div>' . $billing_name . '</div>
+                                <div>' . $billing_address . '</div>
                             </td>'
 		);
 
-		$order->add_meta_data( $billingmetakey, $billingaddress );
+		$order->add_meta_data( $billing_meta_key, $billing_address );
 	} else {
-		$order->add_meta_data( $billingmetakey, ' ' );
+		$order->add_meta_data( $billing_meta_key, ' ' );
 	}
 }
