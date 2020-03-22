@@ -58,12 +58,12 @@ function sprucely_add_billing_address( $order, $sent_to_admin, $plain_text, $ema
 
 		$billing_address = sanitize_text_field(
 			'<td align="right" style="width: .75in">
-                                <b>Purchased by:</b>
-                            </td>
-                            <td style="width: 2.5in; font-size: 14px">
-                                <div>' . $billing_name . '</div>
-                                <div>' . $billing_address . '</div>
-                            </td>'
+				<b>Purchased by:</b>
+			</td>
+			<td style="width: 2.5in; font-size: 14px">
+				<div>' . $billing_name . '</div>
+				<div>' . $billing_address . '</div>
+			</td>'
 		);
 
 		$order->add_meta_data( $billing_meta_key, $billing_address );
